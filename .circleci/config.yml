@@ -26,18 +26,17 @@ jobs:
       - restore_cache:
           key: deps1-{{ .Branch }}-{{ checksum "requirements/dev.txt" }}
       - run:
+          name: Install Requirements
           command: |
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements/dev.txt
-      - run:
-          name: setup Heroku
-          command: bash .circleci/setup-heroku.sh
       - save_cache:
           key: deps1-{{ .Branch }}-{{ checksum "requirements/dev.txt" }}
           paths:
             - "venv"
       - run:
+          name: Run Tests
           command: |
             . venv/bin/activate
             python manage.py test
